@@ -1,0 +1,100 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/message.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <% if(errorMessage.length > 0) { %>
+            <div class="user-message user-message--error">
+                <% errorMessage.forEach(error => { %>
+                    <div><%= error %></div>
+                <% }); %>
+            </div>
+        <% } %>
+        <form class="product-form" action="/admin/<% if(editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input
+                    class="<%= validationErrors.find(error => error.param === 'title') ? 'invalid' : '' %>"
+                    type="text"
+                    name="title"
+                    id="title"
+                    value="<% if(editing || errorMessage.length > 0) { %><%= product.title %><%} %>"
+                    autofocus>
+            </div>
+         
+            <div class="form-control">
+                <label for="title">warehouseName</label>
+                <input
+                  type="search"
+                  name="warehouseName"
+                  id="search-input"
+                  placeholder="Search warehouses..."
+                  autofocus>
+                <ul id="search-results-list"></ul>
+              </div>
+        
+            <div class="form-control">
+                <label for="image">Image</label>
+                <input
+                    class="<%= validationErrors.find(error => error.param === 'image') ? 'invalid' : '' %>"
+                    type="file"
+                    name="image"
+                    id="image">
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input
+                    class="<%= validationErrors.find(error => error.param === 'price') ? 'invalid' : '' %>"
+                    type="number"
+                    name="price"
+                    id="price"
+                    step="0.01"
+                    value="<% if(editing || errorMessage.length > 0) { %><%= product.price %><%} %>">
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea
+                    class="<%= validationErrors.find(error => error.param === 'description') ? 'invalid' : '' %>"
+                    name="description"
+                    id="description"
+                    rows="5"><% if(editing || errorMessage.length > 0) { %><%= product.description %><%} %></textarea>
+            </div>
+            <% if(editing) { %>
+                <input type="hidden" name="id" value="<%= product._id %>">
+            <% } %>
+
+            <button class="btn" type="submit"><% if(editing) { %> Update Product <% } else { %> Add Product <% } %></button>
+        </form>
+
+    </main>
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+    
+        searchInput.addEventListener('input', async () => {
+          const searchTerm = searchInput.value.trim();
+          if (searchTerm.length > 0) {
+            try {
+              const response = await fetch(`/search-warehouses?q=${searchTerm}`);
+              const results = await response.json();
+              searchResults.innerHTML = '';
+              results.forEach((result) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<h2>${result.warehouse}</h2><p>${result.location}</p>`;
+                searchResults.appendChild(listItem);
+              });
+            } catch (err) {
+              console.error(err);
+            }
+          } else {
+            searchResults.innerHTML = '';
+          }
+        });
+      </script>
+<%- include('../includes/end.ejs') %>

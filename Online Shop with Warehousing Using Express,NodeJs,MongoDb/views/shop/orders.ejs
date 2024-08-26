@@ -1,0 +1,69 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/orders.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <!-- Display an error message if it exists -->
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <p class="error-message"><%= errorMessage %></p>
+        <% } %>
+
+        <!-- Check if there are any orders -->
+        <% if (orders.length > 0) { %>
+            <ul class="orders">
+                <!-- Loop through each order -->
+                <% orders.forEach(order => { %>
+                    <li class="orders__item">
+                        <!-- Display the order ID -->
+                        <div>
+                            <strong>Order ID:</strong> <%= order._id %>
+                        </div>
+
+                        <ul class="orders__products">
+                            <!-- Loop through each item in the order -->
+                            <% order.products.forEach((item, index) => { %>
+                                <% if (item) { %>
+                                    <!-- Debugging output for each item -->
+                                    <!--
+                                    <pre>
+                                    Item <%= index %> Data: <%= JSON.stringify(item, null, 2) %>
+                                    </pre>
+                                    -->
+
+                                    <!-- Check if title and quantity exist -->
+                                    <li class="orders__products-item">
+                                        <% if (item.title) { %>
+                                            <strong>Title:</strong> <%= item.title %>
+                                            <h1>Order - # <%= order._id %> <a style="float:right" href="/order/<%= order._id %>">Invoice</a></h1>
+                                        <% } else { %>
+                                          
+                                            <em>Title is missing</em>
+                                        <% } %>
+                                        <br>
+                                        <% if (item.quantity) { %>
+                                            <strong>Quantity:</strong> <%= item.quantity %>
+                                        <% } else { %>
+                                            <em>Quantity is missing</em>
+                                        <% } %>
+                                    </li>
+                                <% } else { %>
+                                    <li class="orders__products-item">
+                                        <em>Product is null or undefined</em>
+                                    </li>
+                                <% } %>
+                            <% }) %>
+                        </ul>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <!-- Message to display if there are no orders -->
+            <h1>Nothing there!</h1>
+        <% } %>
+    </main>
+
+    <%- include('../includes/end.ejs') %>
+</body>
+</html>

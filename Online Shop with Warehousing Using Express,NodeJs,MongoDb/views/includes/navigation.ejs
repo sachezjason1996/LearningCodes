@@ -1,0 +1,46 @@
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/" aria-label="Shop">Shop</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products" aria-label="Products">Products</a>
+            </li>
+            <% if(isAuthenticated) { %>
+            <li class="main-header__item">
+                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart" aria-label="Cart">Cart</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders" aria-label="Orders">Orders</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product" aria-label="Add Product">Add Product</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products" aria-label="Admin Products">Admin Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/warehouse' ? 'active' : '' %>" href="/admin/warehouse" aria-label="Warehouse">Add New Warehouse </a>
+            </li>
+            <% } %>
+        </ul>
+        <ul class="main-header__item-list">
+            <% if(!isAuthenticated) { %>
+            <li class="main-header__item">
+                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup" aria-label="Signup">Signup</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login" aria-label="Login">Login</a>
+            </li>
+            <% } else { %>
+            <li class="main-header__item">
+                <form action="/logout" method="post">
+                    <input type="hidden"  name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" aria-label="Logout">Logout</button>
+                </form>
+            </li>
+            <% } %>
+        </ul>
+    </nav>
+</header>
