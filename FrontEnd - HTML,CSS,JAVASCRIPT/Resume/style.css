@@ -1,0 +1,101 @@
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+}
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    position: fixed;
+    transition: width 0.3s;
+}
+.sidebar.closed {
+    width: 60px;
+}
+.sidebar .logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ff0057;
+    margin-bottom: 50px;
+    transition: opacity 0.3s;
+}
+.sidebar.closed .logo {
+    opacity: 0;
+}
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    margin: 15px 0;
+    font-size: 18px;
+    transition: opacity 0.3s;
+}
+.sidebar.closed a {
+    opacity: 0;
+}
+.toggle-btn {
+    position: absolute;
+    top: 20px;
+    left: 260px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+    transition: left 0.3s;
+}
+.sidebar.closed ~ .toggle-btn {
+    left: 70px;
+}
+.container {
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    justify-content: center;
+    width: calc(100% - 250px);
+    transition: margin-left 0.3s, width 0.3s;
+}
+.sidebar.closed ~ .container {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+}
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.text {
+    max-width: 50%;
+}
+.text h2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 10px 0;
+}
+.text h1 {
+    font-size: 48px;
+    margin: 10px 0;
+}
+.text h1 span {
+    color: #ff0057;
+}
+.image {
+    max-width: 50%;
+}
+.image img {
+    width: 100%;
+    border-radius: 50%;
+}
+.fas fa-arrow-right {
+    font-size: 24px;
+    color: red;
+}
